@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verval - Manajemen Sertikom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+    </style>    
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+        <header class="topbar">
+            <div><span style="color: #64748b; font-size: 0.85rem;">Verval</span></div>
+            <div class="user-profile">
+                <div class="user-avatar"  style="height: auto;">RR</div>
+                <div class="top-right">
+                    <div style="font-weight: 600; font-size: 0.9rem;">Radja Rafa A.</div>
+
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="page-header">
+                <h2>Verval </h2>
+                <p>Isi data diri anda.</p>
+            </div>
+
+            <!-- F007: Alert Peringatan Kuota Habis -->
+            <div id="quotaAlert" class="alert-box alert-warning hidden">
+                <i class="fa-solid fa-triangle-exclamation fa-lg"></i>
+                <span><strong>Peringatan:</strong> Kuota untuk skema yang dipilih telah habis! Pendaftaran tidak dapat dilanjutkan.</span>
+            </div>
+
+            <form id="VervalForm">
+                    <div class="form-group">
+                        <label for="regFullName">Nama Lengkap</label>
+                        <div class="input-icon-wrapper">
+                            <i class=""></i>
+                            <input type="text" id="regFullName" name="fullName" placeholder="Masukkan nama lengkap" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <form id="VervalForm">
+                    <div class="form-group">
+                        <label for="regNoTelp">Nomor Telepon</label>
+                        <div class="input-icon-wrapper">
+                            <i class=""></i>
+                            <input type="number" id="regNoTelp" name="NoTelp placeholder="Masukkan nomor telepon" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <form id="VervalForm">
+                    <div class="form-group">
+                        <label for="regNim">Nim</label>
+                        <div class="input-icon-wrapper">
+                            <i class=""></i>
+                            <input type="number" id="regNim" name="NoNim placeholder="Masukkan Nim required autocomplete="off">
+                        </div>
+                    </div>
+
+                <!-- F005: Upload Berkas -->
+                <div class="card">
+                    <h3 class="section-title"><i class="fa-solid fa-folder-open"></i> Unggah Berkas Persyaratan</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Pasfoto Formal (Latar Merah/Biru)</label>
+                            <label class="file-upload-box">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color:#0284c7; margin-bottom:8px;"></i>
+                                <p style="font-size:0.85rem; color:#64748b;">Klik/seret file JPG/PNG (Maks 2MB)</p>
+                                <input type="file" id="photoInput" accept="image/*" required>
+                            </label>
+                        </div>
+
+                        <div class="form-grid">
+                        <div class="form-group">
+                            <label>Transkrip Nilai</label>
+                            <label class="file-upload-box">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.8rem; color:#0284c7; margin-bottom:8px;"></i>
+                                <p style="font-size:0.85rem; color:#64748b;">Klik/seret file JPG/PNG (Maks 2MB)</p>
+                                <input type="file" id="photoInput" accept="image/*" required>
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Scan KTM / KTP</label>
+                            <label class="file-upload-box">
+                                <i class="fa-solid fa-address-card" style="font-size: 1.8rem; color:#0284c7; margin-bottom:8px;"></i>
+                                <p style="font-size:0.85rem; color:#64748b;">Klik/seret file PDF/JPG (Maks 2MB)</p>
+                                <input type="file" id="ktmInput" accept=".pdf,image/*" required>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- F008: Auto Close Submit -->
+                <div style="display:flex; justify-content:flex-end; gap:12px;">
+                    <button type="submit" id="submitBtn" class="btn"><i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- F004: Modal Detail Sertikom -->
+    <div id="detailModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="mTitle" style="color:#0284c7; margin-bottom:12px;">Detail Sertikom</h3>
+            <p style="font-size:0.9rem; margin-bottom:8px;"><strong>Deskripsi:</strong> <span id="mDesc">-</span></p>
+            <p style="font-size:0.9rem; margin-bottom:8px;"><strong>Jadwal Pelaksanaan:</strong> <span id="mDate">-</span></p>
+            <p style="font-size:0.9rem; margin-bottom:8px;"><strong>Persyaratan:</strong> <span id="mReq">-</span></p>
+            <p style="font-size:0.9rem; margin-bottom:16px;"><strong>Sisa Kuota:</strong> <span id="mQuota">-</span></p>
+            <button type="button" class="btn-primary" onclick="closeDetailModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        fetch('sidebar.html').then(res => res.text()).then(data => {
+            document.getElementById('sidebar-container').innerHTML = data;
+            document.getElementById('menu-verval').classList.add('active');
+        });
+
+        // F006, F007, F008: Logika Validasi Kuota dan Penutupan Otomatis
+        function checkQuotaAndDetail() {
+            const select = document.getElementById('schemeSelect');
+            const selectedOption = select.options[select.selectedIndex];
+            const quota = parseInt(selectedOption.getAttribute('data-quota') || '0');
+            const alertBox = document.getElementById('quotaAlert');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (quota <= 0) {
+                alertBox.classList.remove('hidden'); // F007: Peringatan
+                submitBtn.disabled = true; // F008: Menutup pendaftaran
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
+            } else {
+                alertBox.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+            }
+        }
+
+        // F004: Modal Detail Info
+        function openDetailModal() {
+            const select = document.getElementById('schemeSelect');
+            if (!select.value) { 
+                alert("Pilih skema sertikom terlebih dahulu!"); 
+                return; 
+            }
+            const opt = select.options[select.selectedIndex];
+            
+            // Mengambil teks nama skema tanpa teks sisa kuota
+            const schemeName = opt.text.split(' (Sisa Kuota:')[0];
+            
+            document.getElementById('mTitle').innerText = schemeName;
+            document.getElementById('mDesc').innerText = opt.getAttribute('data-desc');
+            document.getElementById('mDate').innerText = opt.getAttribute('data-date');
+            document.getElementById('mReq').innerText = opt.getAttribute('data-req');
+            document.getElementById('mQuota').innerText = opt.getAttribute('data-quota') + " Peserta";
+            
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // F005: Simpan Pendaftaran
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert("Pendaftaran berhasil disimpan ke sistem!");
+            window.location.href = "dashboard_peserta.html";
+        }
+
+        function handleFormSubmit(e) {
+        e.preventDefault();
+        const select = document.getElementById('schemeSelect');
+        const quota = parseInt(select.options[select.selectedIndex].getAttribute('data-quota') || '0');
+
+        if (quota <= 0) {
+            alert("Pendaftaran gagal: Kuota skema ini sudah habis.");
+            return;
+        }
+
+        alert("Pendaftaran berhasil disimpan ke sistem!");
+        window.location.href = "dashboard_peserta.html";
+    }
+    </script>
+</body>
+</html>     

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Peserta - Manajemen Sertikom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .scheme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .scheme-card {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .scheme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .scheme-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .scheme-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .scheme-requirements {
+            background-color: #f8fafc;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 15px;
+        }
+
+        .scheme-requirements h5 {
+            margin: 0 0 6px 0;
+            font-size: 0.8rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .scheme-requirements ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 0.825rem;
+            color: #334155;
+        }
+
+        .scheme-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .quota-info {
+            font-size: 0.85rem;
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .btn-apply {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-apply:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+        <header class="topbar">
+            <div>
+                <span class="top-label">APLIKASI MANAJEMEN SERTIKOM</span>
+                <h2 id="pageTitle">Dashboard</h2>
+            </div>
+            <div class="top-right">
+                <div class="top-user">
+                    <div class="avatar small">RR</div>
+                    <span>radjarafa28</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="welcome-card">
+                <h2>Selamat Datang di Portal Sertifikasi Kompetensi!</h2>
+                <p style="margin-top: 6px; opacity: 0.9;">Pantau status pendaftaran, jadwal ujian dari asesor, hingga penerbitan sertifikat resmi kamu di sini.</p>
+            </div>
+
+            <!-- Ringkasan Informasi -->
+            <div class="stats-grid">
+                <div class="card">
+                    <div style="font-size:0.85rem; color:#64748b; font-weight:600;">KEUNGGULAN PORTAL</div>
+                    <div style="font-size:1.1rem; font-weight:700; margin-top:4px;">Sertifikasi Standar BNSP</div>
+                    <span class="badge badge-success">Terakreditasi Resmi</span>
+                </div>
+                <div class="card">
+                    <div style="font-size:0.85rem; color:#64748b; font-weight:600;">KETERSEDIAAN SKEMA</div>
+                    <div style="font-size:1.1rem; font-weight:700; margin-top:4px;">3 Skema Aktif</div>
+                    <span class="badge badge-success">Pendaftaran Dibuka</span>
+                </div>
+                <div class="card">
+                    <div style="font-size:0.85rem; color:#64748b; font-weight:600;">TOTAL KUOTA TERSEDIA</div>
+                    <div style="font-size:1.1rem; font-weight:700; margin-top:4px;">75 Sisa Kuota</div>
+                    <span class="badge badge-success">Pengajuan Cepat</span>
+                </div>
+            </div>
+
+            <!-- Alur Pendaftaran & Sertifikasi -->
+            <h3 class="section-title"><i class="fa-solid fa-list-check"></i> Alur Pendaftaran & Sertifikasi</h3>
+            <div class="stepper">
+                <div class="step completed">
+                    <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                    <div style="font-size:0.85rem;">1. Pendaftaran</div>
+                </div>
+                <div class="step completed">
+                    <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                    <div style="font-size:0.85rem;">2. Validasi</div>
+                </div>
+                <div class="step active">
+                    <div class="step-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                    <div style="font-size:0.85rem;">3. Jadwal</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div style="font-size:0.85rem;">4. Ujian Seleksi</div>
+                </div>
+                <div class="step">
+                    <div class="step-icon"><i class="fa-solid fa-award"></i></div>
+                    <div style="font-size:0.85rem;">5. Sertifikasi</div>
+                </div>
+            </div>
+
+            <!-- Daftar Jenis Sertikom yang Tersedia -->
+            <h3 class="section-title" style="margin-top: 30px;"><i class="fa-solid fa-graduation-cap"></i> Skema Sertifikasi Kompetensi Tersedia</h3>
+            <div class="scheme-grid">
+                
+                <!-- Card 1 -->
+                <div class="scheme-card">
+                    <div>
+                        <div class="scheme-header">
+                            <div class="scheme-title">Rekayasa Perangkat Lunak</div>
+                            <span class="badge badge-success">Aktif</span>
+                        </div>
+                        <div class="scheme-desc">
+                            Sertifikasi menguji keahlian pemrograman, analisis kebutuhan lunak, pemodelan database, serta metodologi pengembangan perangkat lunak modern.
+                        </div>
+                        <div class="scheme-requirements">
+                            <h5>Persyaratan:</h5>
+                            <ul>
+                                <li>Transkrip Nilai Pemrograman</li>
+                                <li>Portofolio Project / Aplikasi</li>
+                                <li>KTM Aktif Mahasiswa</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="scheme-footer">
+                        <div class="quota-info"><i class="fa-solid fa-users"></i> Kuota: 25 / 50</div>
+                        <button class="btn-apply">Daftar Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="scheme-card">
+                    <div>
+                        <div class="scheme-header">
+                            <div class="scheme-title">Jaringan Komputer & Siber</div>
+                            <span class="badge badge-success">Aktif</span>
+                        </div>
+                        <div class="scheme-desc">
+                            Mengukur kompetensi dalam perancangan infrastruktur jaringan, konfigurasi perangkat jaringan, routing, switching, dan keamanan data.
+                        </div>
+                        <div class="scheme-requirements">
+                            <h5>Persyaratan:</h5>
+                            <ul>
+                                <li>Lulus Matakuliah Jaringan</li>
+                                <li>Sertifikat Pelatihan / Bootcamp</li>
+                                <li>KTM Aktif Mahasiswa</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="scheme-footer">
+                        <div class="quota-info"><i class="fa-solid fa-users"></i> Kuota: 30 / 50</div>
+                        <button class="btn-apply">Daftar Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="scheme-card">
+                    <div>
+                        <div class="scheme-header">
+                            <div class="scheme-title">Desain Grafis & UI/UX</div>
+                            <span class="badge badge-success">Aktif</span>
+                        </div>
+                        <div class="scheme-desc">
+                            Menguji kemampuan perancangan antarmuka pengguna, prototyping, aset visual digital, serta implementasi standar aksesibilitas desain.
+                        </div>
+                        <div class="scheme-requirements">
+                            <h5>Persyaratan:</h5>
+                            <ul>
+                                <li>Portofolio Desain / Figma</li>
+                                <li>Sertifikat / Bukti Tugas Akhir</li>
+                                <li>KTM Aktif Mahasiswa</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="scheme-footer">
+                        <div class="quota-info"><i class="fa-solid fa-users"></i> Kuota: 20 / 40</div>
+                        <button class="btn-apply">Daftar Sekarang</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        fetch('sidebar.html')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                
+                // Tandai menu aktif
+                const activeMenu = document.getElementById('menu-dashboard');
+                if (activeMenu) activeMenu.classList.add('active');
+
+                // Jalankan toggle sidebar
+                initSidebarToggle();
+            });
+
+        function initSidebarToggle() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('sidebar-toggle');
+
+            if (toggleBtn && sidebar) {
+                toggleBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    document.body.classList.toggle('sidebar-collapsed');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

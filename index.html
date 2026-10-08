@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Sertikom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-wrapper { display: flex; width: 100%; max-width: 1000px; min-height: 620px; background: #fff; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); overflow: hidden; margin: 20px; border: 1px solid #e2e8f0; }
+        .login-banner { flex: 1; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #fff; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; }
+        .brand-logo { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; }
+        .login-form-container { flex: 1; padding: 48px; display: flex; flex-direction: column; justify-content: center; overflow-y: auto; }
+        .form-group { margin-bottom: 18px; display: flex; flex-direction: column; gap: 6px; }
+        label { font-size: 0.85rem; font-weight: 600; color: #334155; }
+        .input-icon-wrapper { position: relative; display: flex; align-items: center; }
+        .input-icon-wrapper i.left-icon { position: absolute; left: 14px; color: #94a3b8; }
+        .input-icon-wrapper i.toggle-password { position: absolute; right: 14px; color: #94a3b8; cursor: pointer; }
+        input, select { width: 100%; padding: 11px 14px 11px 40px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background-color: #fff; }
+        input:focus, select:focus { border-color: #0284c7; box-shadow: 0 0 0 3px #e0f2fe; }
+        
+        /* Style Tombol */
+        .btn-primary { width: 100%; padding: 12px; background-color: #0284c7; color: #fff; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #0369a1; }
+        
+        .btn-outline { width: 100%; padding: 12px; background-color: transparent; color: #0284c7; border: 1px solid #0284c7; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 10px; }
+        .btn-outline:hover { background-color: #f0f9ff; }
+
+        .divider { display: flex; align-items: center; text-align: center; margin: 16px 0; color: #94a3b8; font-size: 0.8rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+        .divider span { padding: 0 10px; }
+
+        .switch-form-text { text-align: center; margin-top: 16px; font-size: 0.88rem; color: #64748b; }
+        .switch-form-text a { color: #0284c7; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .switch-form-text a:hover { text-decoration: underline; }
+        .hidden { display: none !important; }
+        @media (max-width: 768px) { .login-banner { display: none; } .login-wrapper { max-width: 450px; } }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <!-- Banner Left Side -->
+        <div class="login-banner">
+            <div class="brand-logo"><i class="fa-solid fa-certificate fa-lg"></i><span>My Course</span></div>
+            <div>
+                <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 12px;">Sistem Informasi Manajemen Sertikom</h2>
+                <p style="font-size: 0.95rem; opacity: 0.85;">Platform terpadu pendaftaran, pengujian assesor, hingga penerbitan sertifikat kompetensi resmi.</p>
+            </div>
+            <div style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 Politeknik Negeri Batam - TRPL</div>
+        </div>
+
+        <!-- Right Side Form Container -->
+        <div class="login-form-container">
+            
+            <!-- FORM LOGIN -->
+            <div id="loginSection">
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">Selamat Datang!</h3>
+                    <p style="font-size: 0.88rem; color: #64748b; margin-top: 4px;">Masukkan kredensial akun Anda untuk mengakses sistem.</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="roleSelect">Masuk Sebagai</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user-shield left-icon"></i>
+                            <select name="role" id="roleSelect" required>
+                                <option value="peserta" selected>Peserta / Mahasiswa</option>
+                                <option value="assesor">Assesor / Penguji</option>
+                                <option value="operator">Operator / Admin Jurusan</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope left-icon"></i>
+                            <input type="email" id="username" name="username" placeholder="Masukkan Email" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Kata Sandi</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock left-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
+                            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
+                        </div>
+                    </div>
+
+                    <!-- TOMBOL LOGIN UTAMA -->
+                    <button type="submit" class="btn-primary" style="margin-top: 8px;">
+                        <i class="fa-solid fa-right-to-bracket"></i> Masuk Sekarang
+                    </button>
+                </form>
+
+                <div class="divider">
+                    <span>atau</span>
+                </div>
+
+                <!-- TOMBOL REGISTER KHUSUS -->
+                <button type="button" class="btn-outline" onclick="toggleForm('register')">
+                    <i class="fa-solid fa-user-plus"></i> Buat Akun Baru / Register
+                </button>
+            </div>
+
+            <!-- FORM REGISTRASI -->
+            <div id="registerSection" class="hidden">
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #0f172a;">Pendaftaran Akun</h3>
+                    <p style="font-size: 0.88rem; color: #64748b; margin-top: 4px;">Lengkapi data diri Anda untuk mendaftar ke sistem.</p>
+                </div>
+
+                <div class="form-group">
+                        <label for="regRole">Daftar Sebagai</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user-gear left-icon"></i>
+                            <select name="regRole" id="regRole" required>
+                                <option value="peserta" selected>Peserta / Mahasiswa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regFullName">Nama Lengkap</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user left-icon"></i>
+                            <input type="text" id="regFullName" name="fullName" placeholder="Masukkan nama lengkap" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regFullName">NIM</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user left-icon"></i>
+                            <input type="number" id="regFullName" name="fullName" placeholder="Masukkan NIM" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regFullName">Nomor Telepon</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-user left-icon"></i>
+                            <input type="number" id="regFullName" name="fullName" placeholder="Masukkan nama lengkap" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-envelope left-icon"></i>
+                            <input type="text" id="regEmail" name="email" placeholder="contoh@polibatam.ac.id" required autocomplete="off">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="regPassword">Kata Sandi</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fa-solid fa-lock left-icon"></i>
+                            <input type="password" id="regPassword" name="regPassword" placeholder="Minimal 6 karakter" required>
+                            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('regPassword', this)"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 8px;">
+                        <i class="fa-solid fa-check-circle"></i> Selesaikan Pendaftaran
+                    </button>
+                </form>
+
+                <p class="switch-form-text">
+                    Sudah memiliki akun? <a onclick="toggleForm('login')">Kembali ke Login</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Toggle Show/Hide Password
+        function togglePassword(inputId, iconElement) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                iconElement.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                iconElement.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Fungsi Beralih Antara Login dan Register
+        function toggleForm(target) {
+            const loginSection = document.getElementById('loginSection');
+            const registerSection = document.getElementById('registerSection');
+
+            if (target === 'register') {
+                loginSection.classList.add('hidden');
+                registerSection.classList.remove('hidden');
+            } else {
+                registerSection.classList.add('hidden');
+                loginSection.classList.remove('hidden');
+            }
+        }
+
+        // Handling Login Submit
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const role = document.getElementById('roleSelect').value;
+            const username = document.getElementById('username').value;
+            
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('username', username);
+
+            const dashboardMap = {
+                'peserta': 'dashboard_peserta.html',
+                'assesor': 'dashboard_assesor.html',
+                'operator': 'dashboard_operator.html'
+            };
+
+            if (dashboardMap[role]) {
+                window.location.href = dashboardMap[role];
+            } else {
+                alert('Role tidak valid!');
+            }
+        });
+
+        // Handling Register Submit
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('regFullName').value;
+            const email = document.getElementById('regEmail').value;
+            const role = document.getElementById('regRole').value;
+
+            alert(`Pendaftaran berhasil!\nNama: ${fullName}\nRole: ${role}\n\nSilakan masuk menggunakan akun Anda.`);
+            
+            document.getElementById('roleSelect').value = role;
+            document.getElementById('username').value = email;
+            toggleForm('login');
+        });
+    </script>
+</body>
+</html>

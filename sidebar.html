@@ -1,0 +1,196 @@
+<aside class="sidebar" id="sidebar">
+    <div>
+        <div class="brand">
+            <div class="brand-title">
+                <i class="fa-solid fa-certificate fa-lg"></i>
+                <span class="brand-text">My Course</span>
+            </div>
+            <!-- Tombol Toggle Buka/Tutup Sidebar -->
+            <button type="button" id="sidebar-toggle" title="Buka/Tutup Sidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <ul class="menu-list">
+            <li class="menu-item" id="menu-dashboard">
+                <a href="dashboard_peserta.html">
+                    <i class="fa-solid fa-chart-pie"></i> 
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item" id="menu-pendaftaran">
+                <a href="pendaftaran_sertikom.html">
+                    <i class="fa-solid fa-file-pen"></i> 
+                    <span class="menu-text">Pendaftaran</span>
+                </a>
+            </li>
+            <li class="menu-item" id="menu-hasil">
+                <a href="hasil_seleksi.html">
+                    <i class="fa-solid fa-user-check"></i> 
+                    <span class="menu-text">Riwayat Pendaftaran</span>
+                </a>
+            </li>
+            <li class="menu-item" id="menu-sertifikat">
+                <a href="sertifikat_saya.html">
+                    <i class="fa-solid fa-file-arrow-down"></i> 
+                    <span class="menu-text">Hasil Asesmen</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="menu-item logout-item">
+        <a href="index.html">
+            <i class="fa-solid fa-right-from-bracket"></i> 
+            <span class="menu-text">Keluar</span>
+        </a>
+    </div>
+</aside>
+
+<!-- CSS Sidebar Collapsible -->
+<style>
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #1e293b;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 16px 12px;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px 20px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 16px;
+    }
+
+    .brand-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        white-space: nowrap;
+    }
+
+    .brand-text {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #ffffff;
+    }
+
+    #sidebar-toggle {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s, background-color 0.2s;
+    }
+
+    #sidebar-toggle:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .menu-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .menu-item a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 14px;
+        color: #94a3b8;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: all 0.2s;
+    }
+
+    .menu-item a i {
+        font-size: 1.1rem;
+        min-width: 20px;
+        text-align: center;
+    }
+
+    .menu-item a:hover, .menu-item.active a {
+        color: #ffffff;
+        background-color: #2563eb;
+    }
+
+    .logout-item a:hover {
+        background-color: #ef4444;
+        color: #ffffff;
+    }
+
+    /* Kondisi Collapsed */
+    .sidebar.collapsed {
+        width: 70px;
+    }
+
+    .sidebar.collapsed .brand-text,
+    .sidebar.collapsed .menu-text {
+        display: none !important;
+    }
+
+    .sidebar.collapsed .brand {
+        justify-content: center;
+        padding: 8px 0 20px 0;
+    }
+
+    .sidebar.collapsed .brand-title i {
+        display: none;
+    }
+
+    .sidebar.collapsed .menu-item a {
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    body.sidebar-collapsed .main-content {
+        margin-left: 70px !important;
+    }
+
+    .main-content {
+        margin-left: 250px;
+        transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+</style>
+
+<script>
+    (function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                document.body.classList.toggle('sidebar-collapsed');
+            });
+        }
+    })();
+</script>

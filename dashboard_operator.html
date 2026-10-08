@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Dashboard Operator - Manajemen Sertikom</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        .app,
+        .main {
+            padding-top: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        body {
+            display: block;
+            background: #f8fafc;
+        }
+
+        .main {
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+
+        .topbar {
+            min-height: 80px;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            width: 100% !important;
+            padding: 14px clamp(16px, 3vw, 40px);
+            gap: 16px;
+        }
+
+        #admin.operator-page {
+            display: flex !important;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            max-width: 1480px;
+            margin: 0 auto !important;
+            padding: 28px clamp(16px, 3vw, 40px) 48px;
+        }
+
+        #admin.operator-page .admin-table-card {
+            width: 100%;
+            margin: 0 !important;
+            padding: clamp(18px, 2vw, 28px);
+            border-radius: 14px;
+        }
+
+        #admin.operator-page .card-head {
+            flex-wrap: wrap;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #admin.operator-page .simple-table {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: #fff;
+            scrollbar-width: thin;
+        }
+
+        #admin.operator-page .simple-table.has-row-scroll {
+            max-height: 420px;
+            overflow: auto;
+            overscroll-behavior: contain;
+        }
+
+        #admin.operator-page .simple-table.has-row-scroll .table-title {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        #admin.operator-page .simple-row {
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+        #admin.operator-page .table-verifikasi .simple-row {
+            grid-template-columns: 160px 185px 130px 280px 175px 100px 200px;
+            min-width: 1122px;
+            text-align: center;
+        }
+
+        #admin.operator-page .table-rekap .simple-row {
+            grid-template-columns: minmax(180px, 1.5fr) repeat(3, minmax(150px, 1fr));
+            min-width: 700px;
+        }
+
+        #admin.operator-page #table-rekap-pendaftaran .simple-row {
+            grid-template-columns: minmax(180px, 1.5fr) repeat(3, minmax(150px, 1fr)) minmax(140px, .9fr);
+            min-width: 850px;
+        }
+
+        #admin.operator-page .table-input-sertifikasi .simple-row {
+            grid-template-columns: minmax(150px, 1.2fr) minmax(200px, 1.6fr) minmax(200px, 1.6fr) minmax(110px, .8fr) minmax(110px, .8fr);
+            min-width: 900px;
+        }
+
+        #admin.operator-page .table-input-jadwal .simple-row {
+            grid-template-columns: minmax(180px, 1.5fr) minmax(130px, .9fr) minmax(170px, 1.3fr) minmax(160px, 1.2fr) minmax(170px, 1.3fr) minmax(110px, .8fr);
+            min-width: 980px;
+        }
+
+        #admin.operator-page .table-input-sertifikat .simple-row {
+            grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) minmax(110px, .7fr);
+            min-width: 650px;
+        }
+
+        #admin.operator-page .simple-row>span,
+        #admin.operator-page .simple-row>div {
+            min-width: 0;
+        }
+
+        #admin.operator-page .rekap-total {
+            background: #f8fafc;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        #admin.operator-page .simple-row select,
+        #admin.operator-page .simple-row input {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #admin.operator-page .simple-row input[type="time"],
+        #admin.operator-page .simple-row input[type="date"],
+        #admin.operator-page .simple-row input[type="file"] {
+            font: inherit;
+            max-width: 100%;
+        }
+
+        #admin.operator-page .action-group {
+            align-items: center;
+        }
+
+        #admin.operator-page .action-group button,
+        #admin.operator-page .btn-secondary {
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+
+            .top-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            #admin.operator-page {
+                gap: 16px;
+                padding-top: 18px;
+            }
+
+            #admin.operator-page .card-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .card-actions {
+                width: 100%;
+            }
+
+            .card-actions .btn-secondary {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+        <main class="main">
+            <header class="topbar">
+                <div>
+                    <span class="top-label">APLIKASI MANAJEMEN SERTIKOM</span>
+                    <h2 id="pageTitle">Dashboard Operator</h2>
+                </div>
+
+                <div class="top-right">
+                    <div class="top-user">
+                        <div class="avatar small">FR</div>
+                        <span>Fahrel</span>
+                    </div>
+                    <a href="index.html" class="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                    </a>
+                </div>
+            </header>
+
+            <section id="admin" class="page role-page operator-page active">
+
+                <!-- TABEL VERIFIKASI BERKAS PESERTA -->
+<div class="card admin-table-card">
+    <div class="card-head">
+        <div>
+            <h3>Daftar Berkas Pendaftaran Peserta</h3>
+        <!-- </div>
+        <div class="card-actions">
+            <button class="btn-primary" type="button" onclick="exportDataPeserta()">
+                <i class="fa-solid fa-file-export"></i> Ekspor Data Peserta
+            </button>
+        </div> -->
+    </div>
+
+    <div class="simple-table table-verifikasi">
+        <div class="simple-row table-title">
+            <span>NIM & Nama</span>
+            <span>Skema Sertikom</span>
+            <span>Berkas Persyaratan</span>
+            <span>Jadwal Asesmen</span>
+            <span>Status Pendaftaran</span>
+            <span>Update Data</span>
+            <span>Aksi</span>
+        </div>
+
+        <!-- BARIS 1 -->
+        <div class="simple-row" id="row-1">
+            <div>
+                <b>Radja Rafa A.</b><br>
+                <small style="color:#64748b;">4342601065</small>
+            </div>
+            <span>Junior Web Developer</span>
+            <div class="action-group">
+                <button class="btn-action-view" onclick="previewFile('Berkas.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i> Berkas
+                </button>
+            </div>
+            <div>
+                <select>
+                    <option value="" disabled selected>-- jadwal --</option>
+                    <option value="Terdaftar">Junior Web Development : 10-10-2026 08:00 Lab Komputer A</option>
+                    <option value="ditolak">Junior Web Development : 15-10-2026 09:00 Lab Komputer B</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <select>
+                    <option value="" disabled selected>-- Pending --</option>
+                    <option value="Terdaftar">Terdaftar</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <button class="btn-action-approve" onclick="submitDataRow(this)">Submit</button>
+            </div>
+            <button class="btn-secondary" type="button" onclick="exportDataRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+        </div>
+
+        <!-- BARIS 2 -->
+        <div class="simple-row" id="row-2">
+            <div>
+                <b>Andi Pratama</b><br>
+                <small style="color:#64748b;">4342601011</small>
+            </div>
+            <span>Junior Web Developer</span>
+            <div class="action-group">
+                <button class="btn-action-view" onclick="previewFile('Berkas.jpg')">
+                    <i class="fa-solid fa-file-pdf"></i> Berkas
+                </button>
+            </div>
+            <div>
+                <select>
+                    <option value="" disabled selected>-- jadwal --</option>
+                    <option value="Terdaftar">Junior Web Development : 10-10-2026 08:00 Lab Komputer A</option>
+                    <option value="ditolak">Junior Web Development : 15-10-2026 09:00 Lab Komputer B</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <select>
+                    <option value="" disabled selected>-- Pending --</option>
+                    <option value="Terdaftar">Terdaftar</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <button class="btn-action-approve" onclick="submitDataRow(this)">Submit</button>
+            </div>
+            <button class="btn-secondary" type="button" onclick="exportDataRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+        </div>
+
+        <!-- BARIS 3 -->
+        <div class="simple-row" id="row-3">
+            <div>
+                <b>Salsa Ramadhani</b><br>
+                <small style="color:#64748b;">4342601022</small>
+            </div>
+            <span>Database Administrator</span>
+            <div class="action-group">
+                <button class="btn-action-view" onclick="previewFile('Berkas.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i> Berkas
+                </button>
+            </div>
+            <div>
+                <select>
+                    <option value="" disabled selected>-- jadwal --</option>
+                    <option value="Terdaftar">Junior Web Development : 10-10-2026 08:00 Lab Komputer A</option>
+                    <option value="ditolak">Junior Web Development : 15-10-2026 09:00 Lab Komputer B</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <select>
+                    <option value="" disabled selected>-- Pending --</option>
+                    <option value="Terdaftar">Terdaftar</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
+            </div>
+            <div class="action-group">
+                <button class="btn-action-approve" onclick="submitDataRow(this)">Submit</button>
+            </div>
+            <button class="btn-secondary" type="button" onclick="exportDataRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+        </div>
+    </div>
+</div>
+
+                <!-- REKAP JUMLAH DAN DAFTAR PESERTA -->
+                <div class="card admin-table-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Rekapitulasi Pendaftaran</h3>
+                            <small style="color:#64748b;">Contoh data rekap — nantinya diisi dari database.</small>
+                        </div>
+                    </div>
+
+                    <div class="simple-table table-rekap" id="table-rekap-pendaftaran">
+                        <div class="simple-row table-title">
+                            <span>Jenis Sertifikasi</span>
+                            <span>Jumlah Pendaftar</span>
+                            <span>Jumlah Yang Lulus</span>
+                            <span>Jumlah Yang Gagal</span>
+                            <span>Daftar Peserta</span>
+                            <span>Aksi</span>
+                        </div>
+                        <div class="simple-row" data-example="true">
+                            <span>Junior Web Developer</span>
+                            <span>12</span>
+                            <span>8</span>
+                            <span>4</span>
+                            <div>
+                                <small style="color:#475569; display:block; line-height:1.4;">
+                                    1. Radja Rafa A. (4342601065)<br>
+                                    2. Andi Pratama (4342601011)<br>
+                                    <em>...dan 10 peserta lainnya</em>
+                                </small>
+                            </div>
+                            <span>
+                                <button class="btn-secondary" type="button" onclick="exportRekapRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+                            </span>
+                        </div>
+                        <div class="simple-row" data-example="true">
+                            <span>Database Administrator</span>
+                            <span>8</span>
+                            <span>6</span>
+                            <span>2</span>
+                            <div>
+                                <small style="color:#475569; display:block; line-height:1.4;">
+                                    1. Salsa Ramadhani (4342601022)<br>
+                                    <em>...dan 7 peserta lainnya</em>
+                                </small>
+                            </div>
+                            <span>
+                                <button class="btn-secondary" type="button" onclick="exportRekapRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+                            </span>
+                        </div>
+                        <div class="simple-row rekap-total" data-example="true">
+                            <span>Total</span>
+                            <span>20</span>
+                            <span>14</span>
+                            <span>6</span>
+                            <div>
+                                <small style="color:#475569; display:block; line-height:1.4;">
+                                    1. Radja Rafa A. (4342601065)<br>
+                                    2. Andi Pratama (4342601011)<br>
+                                    3. Salsa Ramadhani (4342601022)<br>
+                                    <em>...dan 17 peserta lainnya</em>
+                                </small>
+                            </div>
+                            <span>
+                                <button class="btn-secondary" type="button" onclick="exportRekapRow(this)">
+                                    <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> Ekspor PDF
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ini tabel input sertifikasi -->
+
+                <div class="card admin-table-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Input Sertifikasi</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-secondary" type="button" onclick="addDataRow('sertifikasi')">
+                                <i class="fa-solid fa-plus"></i> Tambah Baris
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="simple-table table-rekap table-input-sertifikasi" id="table-sertifikasi">
+                        <div class="simple-row table-title">
+                            <span>Sertifikasi</span>
+                            <span>Deskripsi</span>
+                            <span>Persyaratan</span>
+                            <span>Kuota</span>
+                            <span>Aksi</span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Sertifikasi"></span>
+                            <span><input type="text" aria-label="Deskripsi"></span>
+                            <span><input type="text" aria-label="Persyaratan"></span> 
+                            <span><input type="number" aria-label="Kuota" min="0"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Sertifikasi"></span>
+                            <span><input type="text" aria-label="Deskripsi"></span>
+                            <span><input type="text" aria-label="Persyaratan"></span>
+                            <span><input type="number" aria-label="Kuota" min="0"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Sertifikasi"></span>
+                            <span><input type="text" aria-label="Deskripsi"></span>
+                            <span><input type="text" aria-label="Persyaratan"></span>
+                            <span><input type="number" aria-label="Kuota" min="0"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ini tabel input jadwal -->
+
+                <div class="card admin-table-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Input Jadwal</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-secondary" type="button" onclick="addDataRow('jadwal')">
+                                <i class="fa-solid fa-plus"></i> Tambah Baris
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="simple-table table-rekap table-input-jadwal" id="table-jadwal">
+                        <div class="simple-row table-title">
+                            <span>Nama Jadwal</span>
+                            <span>Waktu</span>
+                            <span>Tempat</span>
+                            <span>Tanggal</span>
+                            <span>Asesor</span>
+                            <span>Aksi</span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Nama Jadwal"></span>
+                            <span><input type="time" aria-label="Waktu"></span>
+                            <span><input type="text" aria-label="Tempat"></span>
+                            <span><input type="date" aria-label="Tanggal"></span>
+                            <span><input type="text" aria-label="Asesor"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Nama Jadwal"></span>
+                            <span><input type="time" aria-label="Waktu"></span>
+                            <span><input type="text" aria-label="Tempat"></span>
+                            <span><input type="date" aria-label="Tanggal"></span>
+                            <span><input type="text" aria-label="Asesor"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="text" aria-label="Nama Jadwal"></span>
+                            <span><input type="time" aria-label="Waktu"></span>
+                            <span><input type="text" aria-label="Tempat"></span>
+                            <span><input type="date" aria-label="Tanggal"></span>
+                            <span><input type="text" aria-label="Asesor"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ini tabel input sertifikasi -->
+
+                <div class="card admin-table-card">
+                    <div class="card-head">
+                        <div>
+                            <h3>Sertifikat</h3>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-secondary" type="button" onclick="addDataRow('sertifikat')">
+                                <i class="fa-solid fa-plus"></i> Tambah Baris
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="simple-table table-rekap table-input-sertifikat" id="table-sertifikat">
+                        <div class="simple-row table-title">
+                            <span>File Sertifikat</span>
+                            <span>Nama Sertifikat</span>
+                            <span>Aksi</span>
+                        </div>
+                        <div class="simple-row">
+                            <span><input type="file" aria-label="File Sertifikat" accept=".pdf,.jpg,.jpeg,.png"></span>
+                            <span><input type="text" aria-label="Nama Sertifikat"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="file" aria-label="File Sertifikat" accept=".pdf,.jpg,.jpeg,.png"></span>
+                            <span><input type="text" aria-label="Nama Sertifikat"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                        <div class="simple-row">
+                            <span><input type="file" aria-label="File Sertifikat" accept=".pdf,.jpg,.jpeg,.png"></span>
+                            <span><input type="text" aria-label="Nama Sertifikat"></span>
+                            <span><button class="btn-action-approve" type="button"
+                                    onclick="submitDataRow(this)">Submit</button></span>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard_operator.js"></script>
+</body>
+
+</html>

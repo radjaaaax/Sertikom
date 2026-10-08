@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Course - Dashboard Assessor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 1. RESET MARGIN & PADDING UNTUK HEADER FULL SIDES/TOP */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        body {
+            display: block;
+            background: #f8fafc;
+        }
+
+        /* Paksa pembungkus utama tidak memberikan jarak di bagian atas & samping header */
+        .app, .main {
+            padding-top: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        .main {
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+
+        .topbar {
+            min-height: 80px;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            width: 100% !important;
+            padding: 14px clamp(16px, 3vw, 40px);
+            gap: 16px;
+        }
+
+        @media (max-width: 650px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+                padding-top: 14px;
+                padding-bottom: 14px;
+            }
+
+            .top-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Memberikan jarak untuk isi halaman di bawah topbar agar tidak mepet ke pinggir layar */
+        .page {
+            padding: 20px 24px;
+            display: none !important;
+        }
+
+        .page.active {
+            display: block !important;
+        }
+
+        /* 2. PENYESUAIAN UKURAN TOMBOL TUTUP MODAL */
+        .btn-modal-close {
+            display: block;
+            width: 100%;
+            max-width: 120px; /* Batasi lebar maksimal tombol */
+            margin: 20px auto 0 auto; /* Posisi di tengah */
+            padding: 8px 16px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Detail Nilai & Hasil Keputusan Berdampingan */
+        .view-score-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .detail-item small {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .detail-item strong {
+            font-size: 24px;
+            color: #0f172a;
+            margin-top: 4px;
+        }
+
+        /* Tombol Tutup Memanjang di Bawah */
+        .btn-full-close {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar" >
+            <div>
+                <span class="top-label">APLIKASI MANAJEMEN SERTIKOM</span>
+                <h2 id="pageTitle">Dashboard Assessor</h2>
+            </div>
+
+            <div class="top-right">
+                <div class="top-user">
+                    <div class="avatar small">MN</div>
+                    <span>Mutia</span>
+                </div>
+                <a href="index.html" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                </a>
+            </div>
+        </header>
+
+        <!-- 1. DASHBOARD ASSESSOR (HALAMAN UTAMA) -->
+        <section id="assessor" class="page active">
+            <div class="page-head">
+                <div>
+                    <h1>Dashboard Assessor</h1>
+                    <p>Kelola dan input nilai hasil peserta</p>
+                </div>
+            </div>
+
+            <!-- RINGKASAN STATISTIK -->
+            <div class="role-stats">
+                <div class="role-stat">
+                    <span>Jadwal Hari Ini</span>
+                    <strong>2</strong>
+                    <small>Asesmen</small>
+                </div>
+                <div class="role-stat">
+                    <span>Peserta</span>
+                    <strong>12</strong>
+                    <small>Terdaftar</small>
+                </div>
+                <div class="role-stat">
+                    <span>Sudah Dinilai</span>
+                    <strong>8</strong>
+                    <small>Peserta</small>
+                </div>
+                <div class="role-stat">
+                    <span>Belum Dinilai</span>
+                    <strong>4</strong>
+                    <small>Peserta</small>
+                </div>
+            </div>
+
+            <!-- JADWAL TERDEKAT -->
+            <div class="card">
+                <div class="card-head">
+                    <div>
+                        <span class="label">JADWAL ASESMEN</span>
+                        <h3>Jadwal Terdekat</h3>
+                    </div>
+                    <button type="button" class="secondary" onclick="showPage('schedulePage')">Lihat Semua</button>
+                </div>
+
+                <div class="assessor-schedule">
+                    <div class="schedule-row">
+                        <div class="schedule-date"><b>08</b><small>OKT</small></div>
+                        <div>
+                            <b>Junior Web Developer</b>
+                            <span>09.00 - 11.00 WIB · Lab Komputer 2</span>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+                    <div class="schedule-row">
+                        <div class="schedule-date"><b>10</b><small>OKT</small></div>
+                        <div>
+                            <b>Database Administrator</b>
+                            <span>13.00 - 15.00 WIB · Lab Komputer 1</span>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABEL PESERTA -->
+            <div class="card assessor-table-card">
+                <div class="card-head">
+                    <div>
+                        <span class="label">DATA PESERTA</span>
+                        <h3>Daftar Peserta Asesmen</h3>
+                    </div>
+                </div>
+                <div class="simple-table">
+                    <div class="simple-row table-title">
+                        <span>Peserta</span>
+                        <span>Sertikom</span>
+                        <span>Jadwal</span>
+                        <span>Status</span>
+                        <span>Aksi</span>
+                    </div>
+
+                    <!-- Peserta 1 -->
+                    <div class="simple-row">
+                        <span>Andi Pratama</span>
+                        <span>Junior Web Developer</span>
+                        <span>08 Okt</span>
+                        <span>-</span>
+                        <div><button type="button" class="table-btn btn-action" onclick="openScoreForm('Andi Pratama')">Input Nilai</button></div>
+                    </div>
+
+                    <!-- Peserta 2 -->
+                    <div class="simple-row">
+                        <span>Salsa Ramadhani</span>
+                        <span>Junior Web Developer</span>
+                        <span>08 Okt</span>
+                        <span class="status-badge kompeten">Kompeten</span>
+                        <div><button type="button" class="table-btn btn-action btn-outline" onclick="openViewScore('Salsa Ramadhani', 'Kompeten', 85)">Lihat Nilai</button></div>
+                    </div>
+
+                    <!-- Peserta 3 -->
+                    <div class="simple-row">
+                        <span>Dimas Saputra</span>
+                        <span>Junior Web Developer</span>
+                        <span>08 Okt</span>
+                        <span class="status-badge belum-kompeten">Belum Kompeten</span>
+                        <div><button type="button" class="table-btn btn-action btn-outline" onclick="openViewScore('Dimas Saputra', 'Belum Kompeten', 60)">Lihat Nilai</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL 1: INPUT NILAI -->
+            <div id="scorePanel" class="modal-panel">
+                <div class="modal-card">
+                    <div class="modal-head">
+                        <div>
+                            <span class="label">FORM PENILAIAN</span>
+                            <h2 id="scoreStudent">Input Nilai Peserta</h2>
+                        </div>
+                        <button type="button" class="close-btn" onclick="closeScoreForm()">&times;</button>
+                    </div>
+
+                    <form class="modal-body" style="margin-top: 15px;">
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label for="scoreTheory" style="display: block; margin-bottom: 5px; font-weight: 500;">Nilai Akhir</label>
+                            <input id="scoreTheory" type="number" min="0" max="100" placeholder="0 - 100" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="scoreResult" style="display: block; margin-bottom: 5px; font-weight: 500;">Hasil</label>
+                            <select id="scoreResult" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                                <option value="Kompeten">Kompeten</option>
+                                <option value="Belum Kompeten">Belum Kompeten</option>
+                            </select>
+                        </div>
+
+                        <button type="button" class="primary btn-modal-close" onclick="saveScore()">Simpan</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- MODAL 2: LIHAT NILAI -->
+            <!-- MODAL 2: LIHAT NILAI -->
+<div id="viewScorePanel" class="modal-panel">
+    <div class="modal-card">
+        <div class="modal-head">
+            <div>
+                <span class="label">HASIL PENILAIAN</span>
+                <h2 id="viewStudentName">Detail Nilai Peserta</h2>
+            </div>
+            <button type="button" class="close-btn" onclick="closeViewScore()">&times;</button>
+        </div>
+        
+        <div class="modal-body" style="margin-top: 15px;">
+            <!-- Grid 2 kolom untuk Nilai Akhir & Hasil Keputusan -->
+            <div class="view-score-grid">
+                <div class="detail-item">
+                    <small>Nilai Akhir</small>
+                    <strong id="viewTheory">0</strong>
+                </div>
+
+                <div class="detail-item">
+                    <small>Hasil Keputusan</small>
+                    <div style="margin-top: 6px;">
+                        <span id="viewResultBadge" class="status-badge">Kompeten</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tombol Tutup Memanjang Penuh di Bawah -->
+            <button type="button" class="secondary btn-full-close" onclick="closeViewScore()">Tutup</button>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <!-- 2. HALAMAN DAFTAR JADWAL (TERSEMBUNYI SECARA DEFAULT) -->
+        <section id="schedulePage" class="page">
+            <div class="page-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <span class="role-label assessor-label">ASSESSOR</span>
+                    <h1>Daftar Semua Jadwal Asesmen</h1>
+                    <p>Kelola dan lihat seluruh jadwal asesmen mendatang.</p>
+                </div>
+                <button type="button" class="secondary" onclick="showPage('assessor')">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Dashboard
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="assessor-schedule">
+                    <div class="schedule-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="schedule-date"><b>08</b><small>OKT</small></div>
+                            <div>
+                                <b>Junior Web Developer</b>
+                                <div><small style="color: #64748b;">09.00 - 11.00 WIB · Lab Komputer 2</small></div>
+                            </div>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+
+                    <div class="schedule-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="schedule-date"><b>10</b><small>OKT</small></div>
+                            <div>
+                                <b>Cyber Security Analyst</b>
+                                <div><small style="color: #64748b;">13.00 - 15.00 WIB · Lab Komputer 1</small></div>
+                            </div>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+
+                    <div class="schedule-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="schedule-date"><b>11</b><small>OKT</small></div>
+                            <div>
+                                <b>Mobile Application Developer</b>
+                                <div><small style="color: #64748b;">09.00 - 12.00 WIB · Lab Komputer 3</small></div>
+                            </div>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+
+                    <div class="schedule-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="schedule-date"><b>16</b><small>OKT</small></div>
+                            <div>
+                                <b>Network Engineer</b>
+                                <div><small style="color: #64748b;">13.00 - 15.00 WIB · Lab Komputer 1</small></div>
+                            </div>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+
+                    <div class="schedule-row" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="schedule-date"><b>10</b><small>OKT</small></div>
+                            <div>
+                                <b>Data Analyst</b>
+                                <div><small style="color: #64748b;">13.00 - 15.00 WIB · Lab Komputer 1</small></div>
+                            </div>
+                        </div>
+                        <span class="status blue-status">Terjadwal</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+
+        const selectedPage = document.getElementById(pageId);
+        if (selectedPage) {
+            selectedPage.classList.add('active');
+        }
+    }
+
+    function openScoreForm(studentName) {
+        document.getElementById('scoreStudent').innerText = 'Nilai: ' + studentName;
+        document.getElementById('scorePanel').classList.add('active');
+    }
+
+    function closeScoreForm() {
+        document.getElementById('scorePanel').classList.remove('active');
+    }
+
+    function saveScore() {
+        alert('Nilai berhasil disimpan!');
+        closeScoreForm();
+    }
+
+    function openViewScore(name, result, score) {
+        document.getElementById('viewStudentName').innerText = 'Detail Nilai: ' + name;
+        document.getElementById('viewTheory').innerText = score;
+        
+        const badge = document.getElementById('viewResultBadge');
+        badge.innerText = result;
+        badge.className = 'status-badge ' + (result === 'Kompeten' ? 'kompeten' : 'belum-kompeten');
+        
+        document.getElementById('viewScorePanel').classList.add('active');
+    }
+
+    function closeViewScore() {
+        document.getElementById('viewScorePanel').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>
